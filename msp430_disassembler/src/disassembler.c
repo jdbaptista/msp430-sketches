@@ -56,17 +56,12 @@ void getAsm(char** result, uint16_t byteCode, opCode* opCode, char* srcOffset, c
     } else {
         strcat(*result, " "); // result: "MOV "
     }
-
     switch(opCode->format) {
         case DOUBLE: {
             addressingMode destMode = getDestRegisterMode(byteCode, DOUBLE);
             addressingMode srcMode = getSourceRegisterMode(byteCode, DOUBLE);
-            uint16_t destRegister = getDestRegister(byteCode, DOUBLE);
-            char dest[10];
-            sprintf(dest, "%x", destRegister);
-            uint16_t srcRegister = getSourceRegister(byteCode, DOUBLE);
-            char src[10];
-            sprintf(src, "%x", srcRegister);
+            char* dest = parseRegisterNum(getDestRegister(byteCode, DOUBLE));
+            char* src = parseRegisterNum(getSourceRegister(byteCode, DOUBLE));
             appendOperand(result, src, srcMode, srcOffset);
             strcat(*result, " ");
             appendOperand(result, dest, destMode, destOffset);
@@ -74,9 +69,7 @@ void getAsm(char** result, uint16_t byteCode, opCode* opCode, char* srcOffset, c
         }
         case SINGLE: {
             addressingMode destMode = getDestRegisterMode(byteCode, SINGLE);
-            uint16_t destRegister = getDestRegister(byteCode, SINGLE);
-            char dest[10];
-            sprintf(dest, "%x", destRegister);
+            char* dest = parseRegisterNum(getDestRegister(byteCode, SINGLE));
             appendOperand(result, dest, destMode, destOffset);
             break;
         }
@@ -87,7 +80,7 @@ void getAsm(char** result, uint16_t byteCode, opCode* opCode, char* srcOffset, c
         }
         default:
             strcpy(*result, "ERROR");
-            return;
+            break;
     }
 }
 
@@ -167,17 +160,17 @@ bool isByteOperation(uint16_t byteCode) {
 
 char* getJumpOffset(uint16_t byteCode) {
     int16_t signedOffset = (int16_t) (byteCode & 0x03FF);
-    // TODO: Implement function
+    // TODO: Implement function (store string on heap)
     return NULL;
 }
 
 char* byteCodeToOffset(uint16_t byteCode) {
-    // TODO: Implement function
+    // TODO: Implement function (store string on heap)
     int16_t signedOffset = (int16_t) byteCode;
     return NULL;
 }
 
 char* parseRegisterNum(uint16_t regNum) {
-    // TODO: Implement function
+    // TODO: Implement function (store string on heap)
     return NULL;
 }
