@@ -20,19 +20,19 @@
  *
  * NOTE: For single operand instructions, DestOffset should be used instead of source offset!
  */
-void getAsm(char** result, uint16_t byteCode, opCode* code, char* srcOffset, char* destOffset);
+void getAsm(char* result, uint16_t byteCode, opCode* code, uint16_t currAddress, char* srcOffset, char* destOffset);
 
 /**
  * It is the responsibility of the programmer to choose the correct function.
  * This choice should be based on getDestRegisterMode and getSourceRegisterMode.
  */
-void getAsmSingleOffset(char** result, uint16_t byteCode, opCode* code, uint16_t srcOffset);
+void getAsmSingleOffset(char* result, uint16_t byteCode, opCode* code, uint16_t srcOffset);
 
 /**
  * It is the responsibility of the programmer to choose the correct function.
  * This choice should be based on getDestRegisterMode and getSourceRegisterMode.
  */
-void getAsmDoubleOffset(char** result, uint16_t byteCode, opCode* code, uint16_t srcOffset, uint16_t destOffset);
+void getAsmDoubleOffset(char* result, uint16_t byteCode, opCode* code, uint16_t srcOffset, uint16_t destOffset);
 
 opCode getOperation(uint16_t byteCode);
 
@@ -70,15 +70,17 @@ uint16_t getSourceRegister(uint16_t byteCode, formatType type);
  */
 bool isByteOperation(uint16_t byteCode);
 
-char* getJumpOffset(uint16_t byteCode);
+void getJumpOffset(char* result, uint16_t byteCode, uint16_t currAddress);
 
 /**
  * Converts 16-bit byte code to an offset formatted string. Used when addressing
  * mode is indexed, so the next word is the offset.
  */
-char* byteCodeToOffset(uint16_t byteCode);
+void byteCodeToOffset(char* result, uint16_t byteCode);
 
-char* parseRegisterNum(uint16_t regNum);
+void parseRegisterNum(char* result, uint16_t regNum);
+
+void uintToHex(char* result, uint16_t input);
 
 static const opCode CODES[] = {
        {RETI_MASK, RETI_TYPE, "RETI"},
