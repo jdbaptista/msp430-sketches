@@ -48,7 +48,7 @@ const uint8_t IR_JMB_EXCHANGE = 0x61;
 
 
 volatile void delay() {
-    volatile uint16_t timer = 0xFFF;
+    volatile uint16_t timer = 0xF;
     while (timer != 0) {
         timer--;
     }
@@ -57,24 +57,29 @@ volatile void delay() {
 /*
  * Clocks port.pin.
  */
-volatile void clock(volatile uint8_t* port, int pin) {
+volatile inline void clock(volatile uint8_t* port, int pin) {
     *port &= ~pin;
     *port |= pin;
 }
 
 
-volatile void slowClock(volatile uint8_t* port, int pin) {
+/*
+ * Has a total period of 2 * 7.62microseconds, which satisfies
+ * the fuse check time of 5microseconds.
+ */
+volatile inline void slowClock(volatile uint8_t* port, int pin) {
     *port &= ~pin;
-    delay();
+    *port &= ~pin;
     *port |= pin;
-    delay();
+    *port |= pin;
+
 }
 
 /*
  * Sets port.pin high if value is true (1) and
  * low if value is false (0).
  */
-volatile void setLevel(volatile uint8_t* port, int pin, int value) {
+volatile void setLevel(volatile uint8_t* port, int pin, uint16_t value) {
     if (value) {
         *port |= pin;
     } else {

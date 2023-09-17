@@ -13,10 +13,13 @@ int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
-	volatile uint8_t output;
+	volatile uint16_t output;
+	volatile uint8_t ir_output;
 	while (true) {
 	    initFSM();
-	    output = IR_SHIFT(0x55);
-	    printf("break");
+	    ir_output = IR_SHIFT((uint8_t) 0x83);
+	    output = DR_SHIFT((uint16_t) 0xa000);
+	    output = DR_SHIFT((uint16_t) 0x0012);
+	    output = DR_SHIFT((uint16_t) 0x5555);
 	}
 }
