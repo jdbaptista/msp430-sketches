@@ -13,6 +13,28 @@
 #include "masks.h"
 
 /**
+ * Takes in a length 12 list of words (byte_code) and converts them
+ * to a length 4 list of assembly instruction strings (result).
+ *
+ * @param result    An array where the result of this operation will
+ *                  be stored. This array should be of length 4 (the
+ *                  maximum number of instructions in the byteCode),
+ *                  containing strings of length 26 (the maximum
+ *                  length of an instruction).
+ * @param byte_code An array of words consisting of machine code for
+ *                  the MSP430G2553. This array should be of length
+ *                  12 (4 * maximum words to describe one assembly
+ *                  instruction).
+ * @param address   The location in flash memory of the first word
+ *                  given in the byte_code. This is used for
+ *                  determining proper jump offsets from addresses.
+ * @returns An error code describing the result of this operation.
+ *          0: subroutine executed successfully.
+ *          1: subroutine ran into a fatal error.
+ */
+bool bytesToInstructions(char *result[], uint16_t byte_code[], uint16_t address);
+
+/**
  * It is the responsibility of the programmer to first learn the register addressing modes of
  * the source and destination operand. Then, they must find the correct offset in the next two
  * words and format them with the formatOffset function. If there is no offset for either operand,
